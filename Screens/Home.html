@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+  <!-- y 3no Script Tag Firebase ka h y aise hi copy Ker dena -->
+  <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-database.js"></script>
+
+  <script>
+
+    // y var firebaseConfig { is k ander ka data Change Hoga jo tere firebase k app me hoga}
+    var firebaseConfig = {
+      apiKey: "AIzaSyCPJ5ahAMCNRsEkEwd4HNC6OXXRPZPgaHM",
+      authDomain: "finalhackathon-da3c5.firebaseapp.com",
+      projectId: "finalhackathon-da3c5",
+      storageBucket: "finalhackathon-da3c5.appspot.com",
+      messagingSenderId: "579500980257",
+      appId: "1:579500980257:web:372ea3678481c77c43cb60",
+      measurementId: "G-4X1YY72CJ2"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+  </script>
+</head>
+
+<body>
+  <h3>UserName : <span id="UserName"></span></h3>
+  <h3>Email : <span id="Email"></span></h3>
+  <h3>Password : <span id="Password"></span></h3>
+  <h3>Country : <span id="Country"></span></h3>
+  <h3>City : <span id="City"></span></h3>
+  <h3>UID : <span id="Uid"></span></h3>
+  <button onclick="LogOut()" class="btn btn-primary">LogOut</button>
+</body>
+<script>
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      // console.log(user)
+      firebase.database().ref('users/' + user.uid).on('value', (snapshot) => {
+        // console.log("snapshot==>", snapshot.val())
+        var data = snapshot.val().SignUpData;
+        document.getElementById("UserName").innerText = data.UserName;
+        document.getElementById("Email").innerText = data.Email;
+        document.getElementById("Password").innerText = data.Password;
+        document.getElementById("Country").innerText = data.Country;
+        document.getElementById("City").innerText = data.City;
+        document.getElementById("Uid").innerText = user.uid;
+      })
+      // ...
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
+  LogOut = () => {
+    var Confirm = confirm("Are You Sure You Want TO LogOut")
+    if (Confirm == true) {
+      firebase.auth().signOut().then(() => {
+        window.location.href = '../index.html'
+      }).catch((error) => {
+
+      });
+    }
+  }
+</script>
+
+</html>

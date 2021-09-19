@@ -1,0 +1,9 @@
+/* body{
+    background-color: rgba(183, 169, 158, 0.72);
+} */
+.main{
+    background-image: url(../images/photo-1522617889820-47708e025180.jpg);
+    background-size: cover;
+     background-repeat: no-repeat;
+    
+}
